@@ -8,6 +8,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MyAssets from "./pages/employee/MyAssets";
 import RequestAsset from "./pages/employee/RequestAsset";
 import MyRequests from "./pages/employee/MyRequests";
+import MyComplaints from "./pages/employee/MyComplaints";
+import SubmitComplaint from "./pages/employee/SubmitComplaint";
 
 // Admin pages
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -30,6 +32,8 @@ const App = () => (
           <Route path="/" element={<MyAssets />} />
           <Route path="/request" element={<RequestAsset />} />
           <Route path="/my-requests" element={<MyRequests />} />
+          <Route path="/my-complaints" element={<MyComplaints />} />
+          <Route path="/submit-complaint" element={<SubmitComplaint />} />
 
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminDashboard />} />
