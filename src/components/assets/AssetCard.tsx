@@ -1,6 +1,8 @@
 import { Laptop, Monitor, Keyboard, Mouse, Smartphone, Headphones, Camera, Cable } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Asset, AssetType } from "@/lib/mockData";
 import { cn } from "@/lib/utils";
 
@@ -42,9 +44,11 @@ export function AssetCard({ asset, onClick, compact = false }: AssetCardProps) {
       >
         <CardContent className="p-4">
           <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center shrink-0">
-              <Icon className="w-5 h-5 text-muted-foreground" />
-            </div>
+            <Avatar className="h-10 w-10 rounded-lg bg-secondary">
+              <AvatarFallback className="rounded-lg bg-secondary">
+                <Icon className="w-5 h-5 text-muted-foreground" />
+              </AvatarFallback>
+            </Avatar>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <span className="font-medium text-sm truncate">{asset.brand} {asset.model}</span>
@@ -66,16 +70,21 @@ export function AssetCard({ asset, onClick, compact = false }: AssetCardProps) {
       )}
       onClick={onClick}
     >
-      <CardContent className="p-5">
-        <div className="flex items-start justify-between mb-4">
-          <div className="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center">
-            <Icon className="w-6 h-6 text-muted-foreground" />
-          </div>
+      <CardHeader className="pb-3">
+        <div className="flex items-start justify-between">
+          <Avatar className="h-12 w-12 rounded-xl bg-secondary">
+            <AvatarFallback className="rounded-xl bg-secondary">
+              <Icon className="w-6 h-6 text-muted-foreground" />
+            </AvatarFallback>
+          </Avatar>
           <Badge variant={statusVariant}>{asset.status}</Badge>
         </div>
-        
+      </CardHeader>
+      <CardContent className="pt-0">
         <h3 className="font-semibold text-foreground mb-1">{asset.brand} {asset.model}</h3>
         <p className="text-sm text-muted-foreground mb-4">{asset.type}</p>
+        
+        <Separator className="my-3" />
         
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">

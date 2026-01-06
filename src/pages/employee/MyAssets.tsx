@@ -1,9 +1,10 @@
-import { Plus } from "lucide-react";
+import { Plus, Package } from "lucide-react";
 import { Link } from "react-router-dom";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { AssetCard } from "@/components/assets/AssetCard";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { assets, currentEmployee } from "@/lib/mockData";
 
 export default function MyAssets() {
@@ -27,21 +28,23 @@ export default function MyAssets() {
       />
 
       {myAssets.length === 0 ? (
-        <div className="text-center py-16">
-          <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mx-auto mb-4">
-            <span className="text-2xl">📦</span>
-          </div>
-          <h3 className="text-lg font-medium text-foreground mb-2">No assets assigned</h3>
-          <p className="text-muted-foreground mb-6">
-            You don't have any assets assigned to you yet.
-          </p>
-          <Link to="/request">
-            <Button>
-              <Plus className="w-4 h-4 mr-2" />
-              Request Your First Asset
-            </Button>
-          </Link>
-        </div>
+        <Card className="border-dashed">
+          <CardContent className="flex flex-col items-center justify-center py-16">
+            <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
+              <Package className="w-8 h-8 text-muted-foreground" />
+            </div>
+            <h3 className="text-lg font-medium text-foreground mb-2">No assets assigned</h3>
+            <p className="text-muted-foreground mb-6 text-center max-w-sm">
+              You don't have any assets assigned to you yet. Request your first asset to get started.
+            </p>
+            <Link to="/request">
+              <Button>
+                <Plus className="w-4 h-4 mr-2" />
+                Request Your First Asset
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
       ) : (
         <>
           <div className="mb-6">
