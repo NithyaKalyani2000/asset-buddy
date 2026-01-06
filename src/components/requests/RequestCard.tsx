@@ -1,7 +1,9 @@
-import { Clock, CheckCircle, XCircle, AlertCircle } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Clock, CheckCircle, XCircle } from "lucide-react";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
 import { AssetRequest } from "@/lib/mockData";
 import { cn } from "@/lib/utils";
 
@@ -29,14 +31,14 @@ export function RequestCard({ request, showActions = false, onApprove, onReject 
 
   return (
     <Card className="animate-fade-in transition-all duration-200 hover:shadow-md">
-      <CardContent className="p-5">
-        <div className="flex items-start justify-between mb-4">
+      <CardHeader className="pb-3">
+        <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
-              <span className="text-sm font-semibold text-muted-foreground">
+            <Avatar className="h-10 w-10">
+              <AvatarFallback className="bg-secondary text-muted-foreground">
                 {request.requesterName.split(" ").map(n => n[0]).join("")}
-              </span>
-            </div>
+              </AvatarFallback>
+            </Avatar>
             <div>
               <h4 className="font-medium text-foreground">{request.requesterName}</h4>
               <p className="text-xs text-muted-foreground">{request.requesterDepartment}</p>
@@ -47,7 +49,9 @@ export function RequestCard({ request, showActions = false, onApprove, onReject 
             {label}
           </Badge>
         </div>
+      </CardHeader>
 
+      <CardContent className="pt-0">
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium">Requested Asset</span>
@@ -56,9 +60,9 @@ export function RequestCard({ request, showActions = false, onApprove, onReject 
           
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium">Priority</span>
-            <span className={cn("text-xs px-2 py-0.5 rounded-md font-medium", priorityConfig[request.priority])}>
+            <Badge variant="outline" className={cn("text-xs", priorityConfig[request.priority])}>
               {request.priority}
-            </span>
+            </Badge>
           </div>
 
           <div className="flex items-center justify-between">
@@ -68,13 +72,15 @@ export function RequestCard({ request, showActions = false, onApprove, onReject 
             </span>
           </div>
 
-          <div className="pt-3 border-t">
-            <p className="text-sm text-muted-foreground line-clamp-2">{request.reason}</p>
-          </div>
+          <Separator />
+          
+          <p className="text-sm text-muted-foreground line-clamp-2">{request.reason}</p>
         </div>
+      </CardContent>
 
-        {showActions && request.status === "pending" && (
-          <div className="flex gap-2 mt-4 pt-4 border-t">
+      {showActions && request.status === "pending" && (
+        <CardFooter className="pt-0">
+          <div className="flex gap-2 w-full">
             <Button size="sm" className="flex-1" onClick={onApprove}>
               <CheckCircle className="w-4 h-4 mr-1" />
               Approve
@@ -84,14 +90,14 @@ export function RequestCard({ request, showActions = false, onApprove, onReject 
               Reject
             </Button>
           </div>
-        )}
+        </CardFooter>
+      )}
 
-        {request.reviewedDate && (
-          <div className="mt-4 pt-4 border-t text-xs text-muted-foreground">
-            Reviewed by {request.reviewedBy} on {new Date(request.reviewedDate).toLocaleDateString()}
-          </div>
-        )}
-      </CardContent>
+      {request.reviewedDate && (
+        <CardFooter className="pt-0 text-xs text-muted-foreground">
+          Reviewed by {request.reviewedBy} on {new Date(request.reviewedDate).toLocaleDateString()}
+        </CardFooter>
+      )}
     </Card>
   );
 }

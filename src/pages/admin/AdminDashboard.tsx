@@ -1,12 +1,14 @@
-import { Package, CheckCircle, Wrench, Archive, Clock, Users } from "lucide-react";
+import { Package, CheckCircle, Wrench, Users, Clock, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StatCard } from "@/components/assets/StatCard";
 import { AssetCard } from "@/components/assets/AssetCard";
 import { RequestCard } from "@/components/requests/RequestCard";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 import { assets, assetRequests } from "@/lib/mockData";
 
 export default function AdminDashboard() {
@@ -57,13 +59,21 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Pending Requests */}
         <Card className="lg:col-span-2">
-          <CardHeader className="flex flex-row items-center justify-between pb-4">
-            <CardTitle className="text-lg font-semibold flex items-center gap-2">
-              <Clock className="w-5 h-5 text-status-pending" />
-              Pending Requests
-            </CardTitle>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+            <div>
+              <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                <Clock className="w-5 h-5 text-status-pending" />
+                Pending Requests
+              </CardTitle>
+              <CardDescription>
+                {pendingRequests.length} requests awaiting review
+              </CardDescription>
+            </div>
             <Link to="/admin/requests">
-              <Button variant="ghost" size="sm">View All</Button>
+              <Button variant="ghost" size="sm">
+                View All
+                <ArrowRight className="w-4 h-4 ml-1" />
+              </Button>
             </Link>
           </CardHeader>
           <CardContent>
@@ -72,11 +82,13 @@ export default function AdminDashboard() {
                 No pending requests
               </p>
             ) : (
-              <div className="space-y-3">
-                {pendingRequests.slice(0, 3).map((request) => (
-                  <RequestCard key={request.id} request={request} showActions />
-                ))}
-              </div>
+              <ScrollArea className="h-[400px] pr-4">
+                <div className="space-y-3">
+                  {pendingRequests.slice(0, 5).map((request) => (
+                    <RequestCard key={request.id} request={request} showActions />
+                  ))}
+                </div>
+              </ScrollArea>
             )}
           </CardContent>
         </Card>
@@ -85,6 +97,7 @@ export default function AdminDashboard() {
         <Card>
           <CardHeader className="pb-4">
             <CardTitle className="text-lg font-semibold">Asset Summary</CardTitle>
+            <CardDescription>Breakdown by asset type</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {[
@@ -94,10 +107,13 @@ export default function AdminDashboard() {
               { label: "Mice", count: assets.filter((a) => a.type === "Mouse").length },
               { label: "Mobiles", count: assets.filter((a) => a.type === "Mobile").length },
               { label: "Other", count: assets.filter((a) => !["Laptop", "Monitor", "Keyboard", "Mouse", "Mobile"].includes(a.type)).length },
-            ].map((item) => (
-              <div key={item.label} className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">{item.label}</span>
-                <span className="text-sm font-medium">{item.count}</span>
+            ].map((item, index, array) => (
+              <div key={item.label}>
+                <div className="flex items-center justify-between py-1">
+                  <span className="text-sm text-muted-foreground">{item.label}</span>
+                  <span className="text-sm font-medium">{item.count}</span>
+                </div>
+                {index < array.length - 1 && <Separator />}
               </div>
             ))}
           </CardContent>
@@ -106,10 +122,16 @@ export default function AdminDashboard() {
 
       {/* Recent Assets */}
       <Card className="mt-6">
-        <CardHeader className="flex flex-row items-center justify-between pb-4">
-          <CardTitle className="text-lg font-semibold">Recent Assets</CardTitle>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+          <div>
+            <CardTitle className="text-lg font-semibold">Recent Assets</CardTitle>
+            <CardDescription>Latest assets in the system</CardDescription>
+          </div>
           <Link to="/admin/inventory">
-            <Button variant="ghost" size="sm">View Inventory</Button>
+            <Button variant="ghost" size="sm">
+              View Inventory
+              <ArrowRight className="w-4 h-4 ml-1" />
+            </Button>
           </Link>
         </CardHeader>
         <CardContent>

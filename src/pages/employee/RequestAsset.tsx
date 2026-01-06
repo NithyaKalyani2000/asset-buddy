@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Laptop, Monitor, Keyboard, Mouse, Smartphone, Headphones, Camera, Cable, ArrowLeft, Send } from "lucide-react";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { PageHeader } from "@/components/layout/PageHeader";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -61,39 +61,47 @@ export default function RequestAsset() {
         }
       />
 
-      <div className="max-w-3xl">
+      <div className="max-w-3xl space-y-6">
         {/* Asset Type Selection */}
-        <div className="mb-8">
-          <Label className="text-base font-medium mb-4 block">Select Asset Type</Label>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {assetTypes.map(({ type, icon: Icon, description }) => (
-              <button
-                key={type}
-                onClick={() => setSelectedType(type)}
-                className={cn(
-                  "flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all duration-200",
-                  selectedType === type
-                    ? "border-primary bg-primary/5 shadow-sm"
-                    : "border-border hover:border-primary/50 hover:bg-secondary/50"
-                )}
-              >
-                <div className={cn(
-                  "w-10 h-10 rounded-lg flex items-center justify-center transition-colors",
-                  selectedType === type ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground"
-                )}>
-                  <Icon className="w-5 h-5" />
-                </div>
-                <span className="text-sm font-medium">{type}</span>
-                <span className="text-xs text-muted-foreground">{description}</span>
-              </button>
-            ))}
-          </div>
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Select Asset Type</CardTitle>
+            <CardDescription>Choose the type of equipment you need</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {assetTypes.map(({ type, icon: Icon, description }) => (
+                <button
+                  key={type}
+                  onClick={() => setSelectedType(type)}
+                  className={cn(
+                    "flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all duration-200",
+                    selectedType === type
+                      ? "border-primary bg-primary/5 shadow-sm"
+                      : "border-border hover:border-primary/50 hover:bg-secondary/50"
+                  )}
+                >
+                  <div className={cn(
+                    "w-10 h-10 rounded-lg flex items-center justify-center transition-colors",
+                    selectedType === type ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground"
+                  )}>
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  <span className="text-sm font-medium">{type}</span>
+                  <span className="text-xs text-muted-foreground">{description}</span>
+                </button>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Priority Selection */}
-        <Card className="mb-6">
-          <CardContent className="p-5">
-            <Label className="text-base font-medium mb-4 block">Priority Level</Label>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Priority Level</CardTitle>
+            <CardDescription>Indicate how urgently you need this asset</CardDescription>
+          </CardHeader>
+          <CardContent>
             <RadioGroup value={priority} onValueChange={setPriority} className="flex gap-4">
               {["Low", "Medium", "High"].map((level) => (
                 <div key={level} className="flex items-center space-x-2">
@@ -106,11 +114,12 @@ export default function RequestAsset() {
         </Card>
 
         {/* Reason */}
-        <Card className="mb-6">
-          <CardContent className="p-5">
-            <Label htmlFor="reason" className="text-base font-medium mb-4 block">
-              Reason for Request
-            </Label>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Reason for Request</CardTitle>
+            <CardDescription>Provide a clear justification to help IT prioritize your request</CardDescription>
+          </CardHeader>
+          <CardContent>
             <Textarea
               id="reason"
               placeholder="Please explain why you need this asset..."
@@ -119,9 +128,6 @@ export default function RequestAsset() {
               rows={4}
               className="resize-none"
             />
-            <p className="text-xs text-muted-foreground mt-2">
-              Provide a clear justification to help IT prioritize your request.
-            </p>
           </CardContent>
         </Card>
 
